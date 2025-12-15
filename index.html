@@ -8,6 +8,15 @@
   <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700&display=swap" rel="stylesheet">
   <style>
     /* ------------------ 1. リセットと基本スタイル (変更なし) ------------------ */
+  /* 🌟🌟 Androidでの横スクロール/余白対策 🌟🌟 */
+html, body {
+    width: 100%;       /* 幅を100%に固定 */
+    overflow-x: hidden; /* 意図しない横スクロールを隠す */
+    margin: 0;         /* 外部余白をゼロにリセット */
+    padding: 0;        /* 内部余白をゼロにリセット */
+}
+/* 🌟🌟 ---------------------------------- 🌟🌟 */
+  
     body {
         font-family: 'M PLUS Rounded 1c', sans-serif; 
         margin: 0;
@@ -28,7 +37,7 @@
         text-align: center;
     }
     h1 {
-        font-size: 1.5em;
+        font-size: 2.5em;
         font-family: 'M PLUS Rounded 1c', sans-serif; 
         font-weight: 700;
     }
@@ -67,7 +76,7 @@
         border-radius: 4px;
         font-family: 'M PLUS Rounded 1c', sans-serif;
         font-weight: light;
-        font-size: 1.1em;
+        font-size: 1.4em;
     }
 
     /* #question-area 内の h2, p のデフォルトマージンを減らす */
