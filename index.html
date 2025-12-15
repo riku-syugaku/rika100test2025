@@ -3,105 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <title>理科100題テスト2025 - カテゴリ選択</title>
-    <style>
-        /* 全体のスタイル */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f9;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        
-        /* ------------------ カテゴリ選択画面のスタイル ------------------ */
-        #category-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        .category-button {
-            padding: 15px;
-            font-size: 18px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .category-button:hover {
-            background-color: #0056b3;
-        }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+   <style>
+    /* ------------------ 1. リセットと基本スタイル (変更なし) ------------------ */
+    body {
+        font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f9;
+        font-size: 16px;
+    }
+    .container {
+        max-width: 600px;
+        width: 100%;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 15px;
+        border-radius: 0;
+        box-shadow: none;
+        min-height: 100vh;
+        box-sizing: border-box;
+        text-align: center;
+    }
+    h1 {
+        font-size: 1.5em;
+    }
 
-        /* ------------------ クイズ画面のスタイル ------------------ */
-        #quiz-area {
-            text-align: left;
-        }
-        #question-area {
-            margin-bottom: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        #options-area {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        /* 3行表示のための設定 */
-        .option-button {
-            display: block;
-            width: 100%;
-            height: auto;
-            min-height: 50px;
-            padding: 10px 15px;
-            cursor: pointer;
-            border: 2px solid #007bff;
-            border-radius: 5px;
-            background-color: #fff;
-            color: #007bff;
-            font-size: 16px;
-            text-align: left;
-            white-space: normal;
-            box-sizing: border-box;
-        }
-        .option-button.selected {
-            background-color: #007bff;
-            color: white;
-        }
-        #submit-button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            margin-top: 20px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 18px;
-        }
-        #result-area {
-            margin-top: 20px;
-            padding: 15px;
-            border-top: 2px dashed #ccc;
-        }
-      #score-display {
+    /* ------------------ 2. カテゴリ選択画面 (色を維持) ------------------ */
+    #category-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 20px;
+    }
+    .category-button {
+        padding: 15px;
+        font-size: 18px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .category-button:hover {
+        background-color: #0056b3;
+    }
+
+    /* ------------------ 3. クイズ画面のスタイル ------------------ */
+    #quiz-area {
+        text-align: left;
+    }
+    #question-area {
+        margin-bottom: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1.1em;
+    }
+
+    /* 🌟 強制修正 1: コンテナの横並び設定を上書きし、ブロック表示に確定 🌟 */
+    #options-area {
+        display: block !important; /* !important で強制的に縦積みに */
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    /* 🌟 強制修正 2: ボタンを幅いっぱい(100%)で左寄せに確定 🌟 */
+    .option-button {
+        display: block !important; /* !important で強制的にブロック要素に */
+        width: 100% !important; /* 幅いっぱい */
+        
+        height: auto;
+        min-height: 60px;
+        padding: 15px 15px;
+        cursor: pointer;
+
+        /* 色設定 */
+        border: 2px solid #007bff;
+        background-color: #fff;
+        color: #007bff;
+
+        font-size: 17px;
+        text-align: left; /* 左寄せ */
+        white-space: normal;
+        box-sizing: border-box;
+        line-height: 1.4;
+        border-radius: 5px;
+        margin-bottom: 10px; /* 縦の隙間を作る */
+    }
+    .option-button.selected {
+        background-color: #007bff;
+        color: white;
+    }
+    
+    /* 🌟 注意書きの回り込み防止 🌟 */
+    #options-area p {
+        width: 100%;
+        margin-top: 5px;
+        margin-bottom: 20px;
+    }
+
+    /* 解答/次へボタン */
+    #submit-button {
+        display: block;
+        width: 100%;
+        padding: 15px;
+        margin-top: 25px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 20px;
+    }
+
+    /* スコア表示 */
+    #result-area {
+        margin-top: 25px;
+        padding: 15px 0;
+        border-top: 2px dashed #ccc;
+    }
+    #score-display {
         font-weight: bold;
-        font-size: 1.5em; 
-        color: #007bff; 
-        padding: 10px 0; 
+        font-size: 1.7em;
+        color: #007bff;
+        padding: 10px 0;
         margin-top: 15px;
     }
-    </style>
+</style>
 </head>
 <body>
 
