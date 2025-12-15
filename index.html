@@ -9,7 +9,7 @@
   <style>
     /* ------------------ 1. リセットと基本スタイル (変更なし) ------------------ */
     body {
-        font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+        font-family: 'M PLUS Rounded 1c', sans-serif; 
         margin: 0;
         padding: 0;
         background-color: #f4f4f9;
@@ -66,7 +66,7 @@
         border: 1px solid #ddd;
         border-radius: 4px;
         font-family: 'M PLUS Rounded 1c', sans-serif;
-
+        font-weight: light;
         font-size: 1.1em;
     }
 
@@ -77,8 +77,9 @@
 
 /* h2 のフォントサイズを少し小さくする */
 #question-area h2 {
-    font-size: 1.2em; /* 1.3em などから調整 */
-    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-size: 1.6em; /* 1.3em などから調整 */
+    font-weight: bold;
+
 }
 
     /* 🌟 強制修正 1: コンテナの横並び設定を上書きし、ブロック表示に確定 🌟 */
@@ -94,7 +95,7 @@
         width: 100% !important; /* 幅いっぱい */
         
         height: auto;
-        min-height: 60px;
+        min-height: 50px;
         padding: 15px 15px;
         cursor: pointer;
 
@@ -382,6 +383,9 @@ function createCategoryButtons() {
 /**
  * クイズを開始する (問題シャッフル機能付き)
  */
+/**
+ * クイズを開始する (問題シャッフル機能付き)
+ */
 function startQuiz(categoryName) {
     // 1. 問題データを準備（簡易形式からオブジェクト形式へ変換）
     const rawData = allQuestions[categoryName];
@@ -404,6 +408,10 @@ function startQuiz(categoryName) {
     // 4. 画面を切り替え
     startScreen.style.display = 'none';
     quizArea.style.display = 'block';
+
+    // 🌟🌟 重要な追記 🌟🌟
+    // メインタイトル (h1) を非表示にする
+    document.querySelector('h1').style.display = 'none'; 
 
     // 5. クイズ開始
     loadQuestion();
