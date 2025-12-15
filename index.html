@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>理科100題テスト2025 - カテゴリ選択</title>
+    <style>
+        /* 全体のスタイル */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        /* ------------------ カテゴリ選択画面のスタイル ------------------ */
+        #category-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .category-button {
+            padding: 15px;
+            font-size: 18px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .category-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* ------------------ クイズ画面のスタイル ------------------ */
+        #quiz-area {
+            text-align: left;
+        }
+        #question-area {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        #options-area {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        /* 3行表示のための設定 */
+        .option-button {
+            display: block;
+            width: 100%;
+            height: auto;
+            min-height: 50px;
+            padding: 10px 15px;
+            cursor: pointer;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            background-color: #fff;
+            color: #007bff;
+            font-size: 16px;
+            text-align: left;
+            white-space: normal;
+            box-sizing: border-box;
+        }
+        .option-button.selected {
+            background-color: #007bff;
+            color: white;
+        }
+        #submit-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        #result-area {
+            margin-top: 20px;
+            padding: 15px;
+            border-top: 2px dashed #ccc;
+        }
+      #score-display {
+        font-weight: bold;
+        font-size: 1.5em; 
+        color: #007bff; 
+        padding: 10px 0; 
+        margin-top: 15px;
+    }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>理科100題テスト2025</h1>
+
+    <div id="start-screen">
+        <h2>挑戦するカテゴリを選択してください</h2>
+        <div id="category-buttons">
+            </div>
+    </div>
+
+    <div id="quiz-area" style="display: none;">
+        <h2 id="category-title"></h2>
+        
+        <div id="question-area">
+            <p>テストを読み込み中です...</p>
+        </div>
+    
+        <div id="options-area">
+            <button class="option-button" data-value="A"></button>
+            <button class="option-button" data-value="B"></button>
+            <button class="option-button" data-value="C"></button>
+            <p style="font-size: 0.9em; margin-top: 10px;">※ 正解が複数の場合は、該当するボタンをすべてクリックしてください。</p>
+        </div>
+    
+        <button id="submit-button">解答する</button>
+    
+        <div id="result-area">
+            <p id="feedback"></p>
+            <p id="score-display"></p>
+        </div>
+    </div>
+</div>
+
+<script>
+// --- JavaScript コード開始 ---
+
+// **********************************************
+// 🌟 編集はこの「allQuestions」のオブジェクト内で行ってください 🌟
+// 問題配列の書式: [問題文, 選択肢A, 選択肢B, 選択肢C, 正解アルファベット]
+// **********************************************
+const allQuestions = {
+     "植物のつくりとはたらきとはたらき (10問)":
+    [
+      ["単子葉類は","維管束が輪の形","ひげ根","平行脈","BC"],
+["胚珠は","裸子植物にもある","成長して種子になる","成長して果実になる","AB"],
+["タンポポは","合弁花","離弁花","双子葉類","AC"],
+["ヤモリは","両生類","爬虫類","脊椎動物","BC"],
+["軟体動物の内臓をおおっているのは","外とう膜","外骨格","内骨格","A"],
+["ミジンコは","微生物","甲殻類","脊椎動物","AB"],
+["恒温動物は","哺乳類","鳥類","爬虫類","AB"],
+["デンプンは分解されて","モノグリセリドになる","ブドウ糖になる","アミノ酸になる","C"],
+["赤血球には","モノグリセリドが含まれる","ヘモグロビンが含まれる","トリプシンが含まれる","B"],
+["細菌やウイルスを分解するのは","血小板","白血球","赤血球","B"],
+    ],
+   "動物のつくりとはたらき (10問)":  [
+     ["タンパク質を分解するのが","すい液","胃液","唾液","AB"],
+["胆汁は","消化酵素が含まれていない","肝臓で作られる","胆のうで作られる","AB"],
+["胃液に含まれる消化酵素は","リパーゼ","ペプシン","トリプシン","B"],
+["息を吸うとき上がるのが","ろっ骨","横隔膜","肺","A"],
+["肺に血液を送り出すのが","左心室","右心房","右心室","C"],
+["ベネジクト液が反応するのは","ブドウ糖","デンプン","タンパク質","A"],
+["動脈血が流れているのは","肺静脈","肺動脈","大動脈","AC"],
+["アンモニアは","肝臓で窒素に変えられる","腎臓で尿素に変えられる","肝臓で尿素に変えられる","C"],
+["全身から血液が流れてくるのが","右心房","左心房","左心室","A"],
+["心臓から出る血管は","動脈","静脈","弁がない","AC"],
+    ],
+    "地震と地層 (10問)":[
+       ["マグニチュードは震源から遠いほど","大きい","小さい","距離は関係ない","C"],
+["マグニチュードは１大きくなるとエネルギーが","32倍","64倍","1000倍","A"],
+["震度は","10段階","7段階","最大が7","AC"],
+["引きずり込まれているのは","海洋プレート","大陸プレート","日本海プレート","B"],
+["古生代は","ビカリア","サンヨウチュウ","フズリナ","BC"],
+["斑れい岩は","等粒状組織","白っぽい","深成岩","AC"],
+["マグマが地下でゆっくり冷え固まったのが","火山岩","深成岩","等粒状組織","BC"],
+["塩酸で二酸化炭素が出るのが","チャート","凝灰岩","石灰岩","C"],
+["くもりは","雲量が7","雲量が9","記号が「◎」","BC"],
+["圧力は面積が大きいほど","小さい","大きい","面積は関係ない","A"],
+    ],
+    "天気と光・音 (10問)": [
+      ["山頂にいくと","袋が膨らむ","袋がしぼむ","気圧が小さくなる","AC"],
+["ピストンを引くと","温度が上がる","空気が膨張する","気圧が小さくなる","BC"],
+["寒冷前線の通過後は","風向が南寄りに","風向が北寄りに","急に温度が下がる","BC"],
+["上昇気流は","低気圧","高気圧","反時計回り","AC"],
+["飽和水蒸気量は温度が下がると","大きくなる","小さくなる","温度は関係ない","B"],
+["温度が上がると湿度は","上がる","下がる","温度は関係ない","B"],
+["凸レンズから物体を離すと像は","小さくなる","大きくなる","より遠くに見える","A"],
+["弦を強く弾くと音が","高くなる","振幅が大きくなる","大きくなる","BC"],
+["凸レンズの上半分を隠すと","全く見えない","半分見える","暗くなる","C"],
+["10Ωと15Ωの並列回路で全体の抵抗は","25Ω","12Ω","6Ω","C"],
+    ],
+     "磁界と化学 (10問)":  [
+       ["並列回路で電源の電圧は","各電球の和","どこも等しい","積÷和","B"],
+["下向きに電流を流すと磁界の向きは","時計回り","反時計回り","直進する","A"],
+["磁界は","N極からS極","S極からN極","磁力線の間隔がせまいと磁力が弱い","A"],
+["S極を遠ざけるときと同じ電流の向きは","N極を近づける","S極を近づける","N極を遠ざける","A"],
+["水から氷で","体積が小さくなる","体積が大きくなる","密度が大きくなる","B"],
+["BTB溶液は","酸性で青色","酸性で黄色","アルカリ性で緑色","B"],
+["フェノールフタレイン溶液は","酸性で無色","アルカリ性で赤色","アルカリ性で青色","AB"],
+["塩化コバルト紙で","アルカリ性","酸性","水","C"],
+["鉄に塩酸で発生するのが","塩素","水素","酸素","B"],
+["塩化アンモニウムと水酸化バリウムで","吸熱反応","発熱反応","塩素が発生","A"],
+    ],
+};
+
+
+// **********************************************
+// ⚠️ この下の変換・実行ロジックは変更しないでください ⚠️
+// **********************************************
+let questions = []; 
+let currentQuestionIndex = 0;
+let score = 0;
+let selectedAnswers = []; 
+let currentAnswerMap = {};
+
+
+// HTML要素の取得
+const startScreen = document.getElementById('start-screen');
+const categoryButtonsArea = document.getElementById('category-buttons');
+const quizArea = document.getElementById('quiz-area');
+const categoryTitle = document.getElementById('category-title');
+const questionArea = document.getElementById('question-area');
+const optionButtons = document.querySelectorAll('.option-button');
+const submitButton = document.getElementById('submit-button');
+const feedbackElement = document.getElementById('feedback');
+const scoreDisplay = document.getElementById('score-display'); 
+
+// --- 関数定義 ---
+
+/**
+ * ユーティリティ関数: 配列をシャッフルする (フィッシャー・イェーツ・アルゴリズム)
+ */
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+/**
+ * カテゴリボタンを作成し、スタート画面に配置する
+ */
+function createCategoryButtons() {
+    categoryButtonsArea.innerHTML = ''; 
+    for (const categoryName in allQuestions) {
+        const button = document.createElement('button');
+        button.className = 'category-button';
+        button.textContent = categoryName;
+        button.onclick = () => startQuiz(categoryName);
+        categoryButtonsArea.appendChild(button);
+    }
+}
+
+/**
+ * クイズを開始する (問題シャッフル機能付き)
+ */
+function startQuiz(categoryName) {
+    // 1. 問題データを準備（簡易形式からオブジェクト形式へ変換）
+    const rawData = allQuestions[categoryName];
+    let initialQuestions = rawData.map(data => {
+        return {
+            question: data[0],
+            options: [data[1], data[2], data[3]],
+            correct: data[4],
+        };
+    });
+    
+    // 2. 問題配列をシャッフル
+    questions = shuffleArray(initialQuestions);
+    
+    // 3. 状態をリセット
+    currentQuestionIndex = 0;
+    score = 0;
+    categoryTitle.textContent = categoryName;
+
+    // 4. 画面を切り替え
+    startScreen.style.display = 'none';
+    quizArea.style.display = 'block';
+
+    // 5. クイズ開始
+    loadQuestion();
+    updateScoreDisplay(); 
+}
+
+
+/**
+ * 問題を表示する関数 (選択肢ランダム配置、インデックス記憶)
+ */
+function loadQuestion() {
+    if (currentQuestionIndex >= questions.length) {
+        showFinalResult();
+        return;
+    }
+
+    const q = questions[currentQuestionIndex];
+    selectedAnswers = []; 
+    currentAnswerMap = {}; // マッピングをリセット
+
+    // 🌟 選択肢のインデックスをシャッフルする
+    const originalIndices = [0, 1, 2];
+    const shuffledIndices = shuffleArray(originalIndices);
+    
+    // 選択状態の解除とボタンテキストの更新
+    optionButtons.forEach((button, index) => {
+        button.classList.remove('selected');
+        button.disabled = false;
+        const optionLetter = button.getAttribute('data-value'); // 'A', 'B', 'C'
+        
+        // 🌟 シャッフルされたインデックスとテキストを取得
+        const originalIndex = shuffledIndices[index];
+        const optionText = q.options[originalIndex];
+        
+        // 🌟 ボタンに表示するテキストを設定
+        button.textContent = `${optionLetter}. ${optionText}`;
+        
+        // 🌟 グローバルなマッピングテーブルに登録
+        // 例: ボタン A (index 0) に、元のインデックス 2 のテキストが割り当てられた場合、
+        // currentAnswerMap['A'] = 2 となる
+        currentAnswerMap[optionLetter] = originalIndex;
+    });
+
+    // 問題文の表示
+    questionArea.innerHTML = `
+        <h2>第${currentQuestionIndex + 1}問</h2>
+        <p>${q.question}</p>
+    `;
+    feedbackElement.textContent = ''; 
+    submitButton.textContent = '解答する';
+    submitButton.onclick = handleSubmit;
+    submitButton.style.display = 'block';
+    document.getElementById('options-area').style.display = 'flex';
+}
+
+
+
+
+/**
+ * 選択肢をクリックしたときの処理
+ */
+function handleOptionClick(event) {
+    const button = event.target;
+    const value = button.getAttribute('data-value');
+
+    if (selectedAnswers.includes(value)) {
+        selectedAnswers = selectedAnswers.filter(ans => ans !== value);
+        button.classList.remove('selected');
+    } else {
+        selectedAnswers.push(value);
+        button.classList.add('selected');
+    }
+}
+
+/**
+ * 解答ボタンを押したときの処理 (正確なインデックス判定)
+ */
+/**
+ * 解答ボタンを押したときの処理 (最終修正版: マッピングテーブルで判定)
+ */
+function handleSubmit() {
+    if (currentQuestionIndex >= questions.length) {
+        return;
+    }
+
+    const q = questions[currentQuestionIndex];
+    
+    // 🌟 ユーザーの解答を元の正解記号 (A, B, C) にマッピングし直す
+    let mappedAnswers = [];
+    
+    // ユーザーが選択したアルファベット（'A', 'B'など）をループ
+    selectedAnswers.forEach(selectedLetter => {
+        // currentAnswerMap から、選択されたアルファベットが元の問題のどのインデックスに対応するかを取得
+        const originalIndex = currentAnswerMap[selectedLetter];
+
+        // インデックスを正解記号にマッピングして mappedAnswers に追加
+        if (originalIndex === 0) mappedAnswers.push('A');
+        else if (originalIndex === 1) mappedAnswers.push('B');
+        else if (originalIndex === 2) mappedAnswers.push('C');
+    });
+
+    // ユーザーの最終的な解答（元の正解記号ベース）
+    const sortedUserAnswer = mappedAnswers.sort().join('');
+    // 問題定義の正解
+    const sortedCorrect = q.correct.split('').sort().join('');
+
+    // --- 正誤判定とフィードバック ---
+    if (sortedUserAnswer === sortedCorrect) {
+        // ✅ 正解の場合
+        feedbackElement.style.color = 'green';
+        feedbackElement.textContent = '【正解です！】素晴らしい！';
+        score++; 
+    } else {
+        // ❌ 不正解の場合（具体的な選択肢名を表示）
+        const correctOptionsText = q.correct.split('').map(letter => {
+            if (letter === 'A') return q.options[0];
+            if (letter === 'B') return q.options[1];
+            if (letter === 'C') return q.options[2];
+        });
+        
+        let correctMessage;
+        if (correctOptionsText.length === 1) {
+            correctMessage = `正解は「${correctOptionsText[0]}」です。`;
+        } else if (correctOptionsText.length === 2) {
+            correctMessage = `正解は「${correctOptionsText[0]}」と「${correctOptionsText[1]}」です。`;
+        } else if (correctOptionsText.length === 3) {
+            correctMessage = `正解は「${correctOptionsText[0]}」、「${correctOptionsText[1]}」、そして「${correctOptionsText[2]}」です。`;
+        } else {
+             correctMessage = `正解は「${q.correct}」（${correctOptionsText.join('、')}）でした。`;
+        }
+        
+        feedbackElement.style.color = 'red';
+        feedbackElement.textContent = `【不正解です】${correctMessage}`;
+    }
+    // --- 正誤判定ここまで ---
+
+    submitButton.textContent = '次の問題へ';
+    submitButton.onclick = moveToNextQuestion;
+    optionButtons.forEach(button => button.disabled = true);
+    updateScoreDisplay();
+}
+/**
+ * 次の問題へ進む
+ */
+function moveToNextQuestion() {
+    currentQuestionIndex++;
+    updateScoreDisplay(); 
+    loadQuestion();
+}
+
+/**
+ * スコア表示を更新
+ */
+function updateScoreDisplay() {
+    if (questions.length === 0) {
+        scoreDisplay.textContent = '現在のスコア: 0 / 0問';
+        return;
+    }
+    scoreDisplay.textContent = `現在のスコア: ${score} / ${questions.length}問`;
+}
+
+/**
+ * 最終結果を表示
+ */
+function showFinalResult() {
+    questionArea.innerHTML = `
+        <h2>「${categoryTitle.textContent}」終了！</h2>
+        <p>全${questions.length}問終了しました。お疲れ様でした！</p>
+    `;
+    feedbackElement.style.color = 'black';
+    feedbackElement.textContent = `最終結果: ${questions.length}問中、${score}問正解！`;
+    scoreDisplay.textContent = `正答率: ${((score / questions.length) * 100).toFixed(1)}%`;
+    
+    // ボタンを「別のカテゴリに挑戦」に変更
+    submitButton.style.display = 'block';
+    submitButton.textContent = '別のカテゴリに挑戦する';
+    submitButton.onclick = () => {
+        // 画面をスタート画面に戻す（リロード）
+        window.location.reload(); 
+    };
+    
+    document.getElementById('options-area').style.display = 'none';
+}
+
+
+// --- 初期化処理 ---
+
+// 選択肢ボタンにクリックイベントを設定
+optionButtons.forEach(button => {
+    button.addEventListener('click', handleOptionClick);
+});
+
+// 最初にカテゴリ選択ボタンを作成して表示する
+createCategoryButtons();
+
+// --- JavaScript コード終了 ---
+</script>
+
+</body>
+</html>
