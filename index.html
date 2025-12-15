@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <title>理科100題テスト2025 - カテゴリ選択</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-   <style>
+  
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700&display=swap" rel="stylesheet">
+  <style>
     /* ------------------ 1. リセットと基本スタイル (変更なし) ------------------ */
     body {
         font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
@@ -27,18 +29,21 @@
     }
     h1 {
         font-size: 1.5em;
+        font-family: 'M PLUS Rounded 1c', sans-serif; 
+        font-weight: 700;
     }
 
     /* ------------------ 2. カテゴリ選択画面 (色を維持) ------------------ */
     #category-buttons {
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 16px;
         margin-top: 20px;
     }
     .category-button {
-        padding: 15px;
-        font-size: 18px;
+        padding: 20px;
+        font-family: 'M PLUS Rounded 1c', sans-serif;
+        font-size: 22px;
         background-color: #007bff;
         color: white;
         border: none;
@@ -60,8 +65,21 @@
         padding: 10px;
         border: 1px solid #ddd;
         border-radius: 4px;
+        font-family: 'M PLUS Rounded 1c', sans-serif;
+
         font-size: 1.1em;
     }
+
+    /* #question-area 内の h2, p のデフォルトマージンを減らす */
+#question-area h2, #question-area p {
+    margin: 5px 0;
+}
+
+/* h2 のフォントサイズを少し小さくする */
+#question-area h2 {
+    font-size: 1.2em; /* 1.3em などから調整 */
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+}
 
     /* 🌟 強制修正 1: コンテナの横並び設定を上書きし、ブロック表示に確定 🌟 */
     #options-area {
@@ -85,7 +103,9 @@
         background-color: #fff;
         color: #007bff;
 
-        font-size: 17px;
+        font-size: 20px;
+        font-family: 'M PLUS Rounded 1c', sans-serif;
+      
         text-align: left; /* 左寄せ */
         white-space: normal;
         box-sizing: border-box;
@@ -106,18 +126,34 @@
     }
 
     /* 解答/次へボタン */
-    #submit-button {
-        display: block;
-        width: 100%;
-        padding: 15px;
-        margin-top: 25px;
-        background-color: #28a745;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 20px;
-    }
+
+
+  #submit-button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin-top: 25px;
+    
+    /* 🌟 「解答する」時の元の色に戻す 🌟 */
+    background-color: #28a745; /* 背景：緑 */
+    color: white; /* 文字：白 */
+    border: none; /* 枠線なし */
+    
+        font-family: 'M PLUS Rounded 1c', sans-serif;
+
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+/* 🌟 「次の問題へ」ボタン用のスタイル (反転色) 🌟 */
+.next-question-button {
+    background-color: white !important; /* 背景を白にする */
+    color: #28a745 !important; /* 文字を緑色にする */
+    border: 3px solid #28a745 !important; /* 枠線を緑色にする */
+}
+
+
 
     /* スコア表示 */
     #result-area {
@@ -126,12 +162,67 @@
         border-top: 2px dashed #ccc;
     }
     #score-display {
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+
         font-weight: bold;
         font-size: 1.7em;
         color: #007bff;
         padding: 10px 0;
-        margin-top: 15px;
+        margin-top: 12px;
+    text-align: center;
     }
+
+    /* 🌟 正解時のフィードバックを豪華にするスタイル 🌟 */
+/* 🌟 フィードバック要素全体を調整 🌟 */
+#feedback {
+    text-align: center !important; 
+    margin-top: 5px;    /* 🌟 上の余白を減らす (例: 10px -> 5px) 🌟 */
+    margin-bottom: 5px; /* 🌟 下の余白を減らす (例: 10px -> 5px) 🌟 */
+}
+
+/* 🌟 不正解時の文字サイズと太さを正解時と同じレベルで大きくする 🌟 */
+#feedback[style*="red"] {
+    /* 正解時と同じサイズ感にするが、影やアニメーションは除外 */
+    font-size: 1.3em !important;
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+ 
+    font-weight: 600 !important;
+    padding: 5px 0; 
+}
+
+/* 🌟 正解時の装飾のパディングも調整 🌟 */
+#feedback[style*="green"] {
+    font-size: 2.2em !important; 
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+
+    font-weight: 900 !important; 
+    color: #28a745 !important; 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); 
+    padding: 5px 0; /* 🌟 上下の内部パディングを減らす (15px -> 5px) 🌟 */
+    animation: bounceIn 0.5s ease-out; 
+}
+
+/* (アニメーションの定義 - CSSの最後に追記してください) */
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* 🌟 不正解時に表示される正解テキストのスタイル 🌟 */
+.correct-answer-text {
+    display: block; 
+    font-size: 1.00em; 
+    font-weight: normal !important;
+    margin-top: 5px;
+    line-height: 1.4;
+}
+
 </style>
 </head>
 <body>
@@ -140,7 +231,7 @@
     <h1>理科100題テスト2025</h1>
 
     <div id="start-screen">
-        <h2>挑戦するカテゴリを選択してください</h2>
+        <h2>カテゴリを選択してください</h2>
         <div id="category-buttons">
             </div>
     </div>
@@ -185,7 +276,7 @@ const allQuestions = {
 ["軟体動物の内臓をおおっているのは","外とう膜","外骨格","内骨格","A"],
 ["ミジンコは","微生物","甲殻類","脊椎動物","AB"],
 ["恒温動物は","哺乳類","鳥類","爬虫類","AB"],
-["デンプンは分解されて","モノグリセリドになる","ブドウ糖になる","アミノ酸になる","C"],
+["デンプンは分解されて","モノグリセリドになる","ブドウ糖になる","アミノ酸になる","B"],
 ["赤血球には","モノグリセリドが含まれる","ヘモグロビンが含まれる","トリプシンが含まれる","B"],
 ["細菌やウイルスを分解するのは","血小板","白血球","赤血球","B"],
     ],
@@ -323,6 +414,9 @@ function startQuiz(categoryName) {
 /**
  * 問題を表示する関数 (選択肢ランダム配置、インデックス記憶)
  */
+/**
+ * 問題を表示する関数 (選択肢ランダム配置、インデックス記憶)
+ */
 function loadQuestion() {
     if (currentQuestionIndex >= questions.length) {
         showFinalResult();
@@ -333,7 +427,7 @@ function loadQuestion() {
     selectedAnswers = []; 
     currentAnswerMap = {}; // マッピングをリセット
 
-    // 🌟 選択肢のインデックスをシャッフルする
+    // 選択肢のインデックスをシャッフルする
     const originalIndices = [0, 1, 2];
     const shuffledIndices = shuffleArray(originalIndices);
     
@@ -343,16 +437,10 @@ function loadQuestion() {
         button.disabled = false;
         const optionLetter = button.getAttribute('data-value'); // 'A', 'B', 'C'
         
-        // 🌟 シャッフルされたインデックスとテキストを取得
         const originalIndex = shuffledIndices[index];
         const optionText = q.options[originalIndex];
         
-        // 🌟 ボタンに表示するテキストを設定
         button.textContent = `${optionLetter}. ${optionText}`;
-        
-        // 🌟 グローバルなマッピングテーブルに登録
-        // 例: ボタン A (index 0) に、元のインデックス 2 のテキストが割り当てられた場合、
-        // currentAnswerMap['A'] = 2 となる
         currentAnswerMap[optionLetter] = originalIndex;
     });
 
@@ -363,14 +451,15 @@ function loadQuestion() {
     `;
     feedbackElement.textContent = ''; 
     submitButton.textContent = '解答する';
+    
+    // 🌟🌟 重要な修正 🌟🌟
+    // 「解答する」に戻す際に、反転クラスを削除して元の緑色に戻す
+    submitButton.classList.remove('next-question-button'); 
+    
     submitButton.onclick = handleSubmit;
     submitButton.style.display = 'block';
-    document.getElementById('options-area').style.display = 'flex';
+    document.getElementById('options-area').style.display = 'block'; // display: flex から block に修正されていたので、block のまま維持
 }
-
-
-
-
 /**
  * 選択肢をクリックしたときの処理
  */
@@ -393,6 +482,16 @@ function handleOptionClick(event) {
 /**
  * 解答ボタンを押したときの処理 (最終修正版: マッピングテーブルで判定)
  */
+/**
+ * 解答ボタンを押したときの処理 (最終修正版: マッピングテーブルで判定)
+ */
+
+ /**
+ * 解答ボタンを押したときの処理 (最終修正版: マッピングテーブルで判定)
+ */
+/**
+ * 解答ボタンを押したときの処理 (最終修正版: マッピングテーブルで判定)
+ */
 function handleSubmit() {
     if (currentQuestionIndex >= questions.length) {
         return;
@@ -400,63 +499,68 @@ function handleSubmit() {
 
     const q = questions[currentQuestionIndex];
     
-    // 🌟 ユーザーの解答を元の正解記号 (A, B, C) にマッピングし直す
+    // ユーザーの解答を元の正解記号 (A, B, C) にマッピングし直す
     let mappedAnswers = [];
-    
-    // ユーザーが選択したアルファベット（'A', 'B'など）をループ
     selectedAnswers.forEach(selectedLetter => {
-        // currentAnswerMap から、選択されたアルファベットが元の問題のどのインデックスに対応するかを取得
         const originalIndex = currentAnswerMap[selectedLetter];
 
-        // インデックスを正解記号にマッピングして mappedAnswers に追加
         if (originalIndex === 0) mappedAnswers.push('A');
         else if (originalIndex === 1) mappedAnswers.push('B');
         else if (originalIndex === 2) mappedAnswers.push('C');
     });
 
-    // ユーザーの最終的な解答（元の正解記号ベース）
     const sortedUserAnswer = mappedAnswers.sort().join('');
-    // 問題定義の正解
     const sortedCorrect = q.correct.split('').sort().join('');
 
     // --- 正誤判定とフィードバック ---
+    
+    // 常にフィードバック要素のスタイルをリセット
+    feedbackElement.style.color = '';
+    
     if (sortedUserAnswer === sortedCorrect) {
         // ✅ 正解の場合
         feedbackElement.style.color = 'green';
-        feedbackElement.textContent = '【正解です！】素晴らしい！';
+        feedbackElement.textContent = '正解です！';
         score++; 
+        
+        // 不正解時のクラスをリセット (念のため)
+        feedbackElement.classList.remove('feedback-incorrect');
+
     } else {
-        // ❌ 不正解の場合（具体的な選択肢名を表示）
+        // ❌ 不正解の場合 (複数行表示を維持)
         const correctOptionsText = q.correct.split('').map(letter => {
             if (letter === 'A') return q.options[0];
             if (letter === 'B') return q.options[1];
             if (letter === 'C') return q.options[2];
         });
         
-        let correctMessage;
-        if (correctOptionsText.length === 1) {
-            correctMessage = `正解は「${correctOptionsText[0]}」です。`;
-        } else if (correctOptionsText.length === 2) {
-            correctMessage = `正解は「${correctOptionsText[0]}」と「${correctOptionsText[1]}」です。`;
-        } else if (correctOptionsText.length === 3) {
-            correctMessage = `正解は「${correctOptionsText[0]}」、「${correctOptionsText[1]}」、そして「${correctOptionsText[2]}」です。`;
-        } else {
-             correctMessage = `正解は「${q.correct}」（${correctOptionsText.join('、')}）でした。`;
-        }
-        
+        let correctOptionsJoined = correctOptionsText.join('」と「');
+
         feedbackElement.style.color = 'red';
-        feedbackElement.textContent = `【不正解です】${correctMessage}`;
+        
+        // 🌟🌟 HTMLを使用するため、textContentではなくinnerHTMLを使用 🌟🌟
+        feedbackElement.innerHTML = `
+            <span style="font-size: 2em; font-weight: 900;">不正解！</span>
+            <span class="correct-answer-text">
+                正解は「${correctOptionsJoined}」です。
+            </span>
+        `;
+        
+        // 不正解時の豪華なスタイルを適用するクラスを付与
+        feedbackElement.classList.add('feedback-incorrect'); 
     }
     // --- 正誤判定ここまで ---
 
+    // 🌟🌟🌟 ここでボタンのアクションを確実に切り替える 🌟🌟🌟
     submitButton.textContent = '次の問題へ';
-    submitButton.onclick = moveToNextQuestion;
+    submitButton.onclick = moveToNextQuestion; // 次の問題へ進む関数を割り当てる
     optionButtons.forEach(button => button.disabled = true);
     updateScoreDisplay();
+
+    // 🌟 ボタンのスタイルを「次の問題へ」の反転色に切り替える
+    submitButton.classList.add('next-question-button');
 }
-/**
- * 次の問題へ進む
- */
+
 function moveToNextQuestion() {
     currentQuestionIndex++;
     updateScoreDisplay(); 
