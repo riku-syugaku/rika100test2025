@@ -36,11 +36,28 @@ html, body {
         box-sizing: border-box;
         text-align: center;
     }
-    h1 {
-        font-size: 2.5em;
-        font-family: 'M PLUS Rounded 1c', sans-serif; 
-        font-weight: 700;
-    }
+   /* 🌟🌟 タイトルの装飾 (h1) 修正箇所 🌟🌟 */
+h1 {
+    font-size: 3.8em; /* サイズを少し大きくする */
+    text-align: center;
+    padding-top: 20px; /* 上部に余白を追加 */
+    margin-bottom: 20px;
+    
+    /* 導入済みのフォント */
+    font-family: 'M PLUS Rounded 1c', sans-serif; 
+    font-weight: 800; /* さらに太く強調 */
+    
+    /* 💡 グラデーションの適用 */
+    background: linear-gradient(180deg, #0056b3, #007bff); 
+    -webkit-background-clip: text; /* テキストの形に背景を切り抜く */
+    color: transparent; /* テキストの色を透明にする（グラデーションを透過させる） */
+    
+    /* 💡 テキストシャドウ（立体的な影） */
+    text-shadow: 
+        1px 1px 2px rgba(0, 0, 0, 0.2), /* 本体に影 */
+        0 0 10px rgba(0, 123, 255, 0.3); /* 知的な光沢 */
+}
+/* 🌟🌟 -------------------------------- 🌟🌟 */
 
     /* ------------------ 2. カテゴリ選択画面 (色を維持) ------------------ */
     #category-buttons {
@@ -76,7 +93,7 @@ html, body {
         border-radius: 4px;
         font-family: 'M PLUS Rounded 1c', sans-serif;
         font-weight: light;
-        font-size: 0.9em;
+        font-size: 1.3em;
     }
 
     /* #question-area 内の h2, p のデフォルトマージンを減らす */
@@ -133,6 +150,8 @@ html, body {
         width: 100%;
         margin-top: 5px;
         margin-bottom: 20px;
+       font-size: 0.7em;
+
     }
 
     /* 解答/次へボタン */
@@ -322,7 +341,7 @@ const allQuestions = {
 ["飽和水蒸気量は温度が下がると","大きくなる","小さくなる","温度は関係ない","B"],
 ["温度が上がると湿度は","上がる","下がる","温度は関係ない","B"],
 ["凸レンズから物体を離すと像は","小さくなる","大きくなる","より遠くに見える","A"],
-["弦を強く弾くと音が","高くなる","振幅が大きくなる","大きくなる","BC"],
+["弦を強く弾くと","音が高くなる","振幅が大きくなる","音が大きくなる","BC"],
 ["凸レンズの上半分を隠すと","全く見えない","半分見える","暗くなる","C"],
 ["10Ωと15Ωの並列回路で全体の抵抗は","25Ω","12Ω","6Ω","C"],
     ],
